@@ -5,14 +5,24 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TournamentsService {
-  // private url = 'http://localhost:3000/userLookup/ant';
-
-  private url = 'http://localhost:3000/tournamentsResults/Bob Barker/date/2020-07-24'
+ 
+  private tournamentsAllUrl = 'http://localhost:3000/tournamentsAll'
+  private tournamentNamesUrl = 'http://localhost:3000/tournamentsList'
+  private tournamentLookupUrl = 'http://localhost:3000/tournamentLookup'
    
   constructor(private httpClient: HttpClient) { }
   
-  getTournament(){
-    return this.httpClient.get(this.url);
+  getTournaments(){
+    return this.httpClient.get(this.tournamentsAllUrl);
+  }
+
+  getTournamentNames() {
+    return this.httpClient.get(this.tournamentNamesUrl)
+  }
+  
+  getTournamentByName(tournamentName) {
+    let u = `${this.tournamentLookupUrl}/${tournamentName}` 
+    return this.httpClient.get(u)
   }
 
   

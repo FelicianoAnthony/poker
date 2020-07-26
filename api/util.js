@@ -152,6 +152,10 @@ function transformToRowsTournament(tournamentArray, skipFields) {
         if (skipFields.includes(lineSplit[0].trim())) {
             continue
         }
+
+        if (lineSplit[0].trim().startsWith('Place')) {
+            var d = 'ss'
+        }
         
 
         let existsInTournamentList = tournamentList[listIndex] 
