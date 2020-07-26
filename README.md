@@ -2,7 +2,9 @@
 
 - cd fe ; npm install
 
-- add password to api/app.js
+- cd api ; npm install 
+
+- add config data to config/secrets.js
 
 - cd api ; node app.js 
 

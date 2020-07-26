@@ -15,9 +15,25 @@ export class AppComponent {
   constructor(private service:TournamentsService) {}
   
 
+  // makeHeader(data) {
+
+  //   let responseKeys = Object.keys(data)
+
+  //   let headers = []
+  //   responseKeys.forEach(key => {
+  //     let tempObj = {
+  //       headerName: key,
+  //       field: key
+  //     }
+  //     headers.push(tempObj)
+  //   })
+
+  //   return headers
+  // }
+
   makeHeader(data) {
 
-    let responseKeys = Object.keys(data[0])
+    let responseKeys = Object.keys(data)
 
     let headers = []
     responseKeys.forEach(key => {
@@ -38,11 +54,27 @@ export class AppComponent {
           this.columnDefs = this.makeHeader(response.data)
           this.rowData = response.data
           console.log(response)
+
         });
+
+        // this.service.getUsersList()
+        //   .subscribe(response => {
+        //     this.usersList = response.data
+        //   })
   }
 
 
+//   columnDefs = [
+//     {headerName: 'Make', field: 'make'},
+//     {headerName: 'Model', field: 'model'},
+//     {headerName: 'Price', field: 'price'}
+// ];
 
+// rowData = [
+//     {make: 'Toyota', model: 'Celica', price: 35000},
+//     {make: 'Ford', model: 'Mondeo', price: 32000},
+//     {make: 'Porsche', model: 'Boxter', price: 72000}
+// ];
 
 
   

@@ -1,80 +1,102 @@
 const express = require('express')
+const util = require('./util.js')
+const config = require('./config/secrets.js')
+// var Promise = require("bluebird");
+
 const app = express()
-const axios = require('axios')
-
-
-const port = 3000
-const apiUrl = 'http://pokeribarelyknowher.com'
-const apiPort = '80'
-const apiPassword = ""
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/userLookup/:name', async (req, res) => {
+
+app.get('/userLookup', async (req, res) => {
+    // http://localhost:3000/userLookup
     res.header("Access-Control-Allow-Origin", "*");
-    // send this in postman - http://localhost:3000/userLookup/ant
+ 
+    // get list of players
+    let requestParams = {'Fields': 'Player'}
+    let data = await util.doRequest("AccountsList", requestParams)
 
-    let userToLookup = req.params.name
+    // lookup info for each player 
+    let playersList = data.data.Player
 
-    // let url = 'http://pokeribarelyknowher.com:80/api?Command=AccountsGet&Password=s&player=ant&JSON=Yes'
-    let url = `${apiUrl}:${apiPort}/api`
-    var requestParams = {
-        params: {
-            "Command": "AccountsGet", 
-            "Password": apiPassword,
-            "Player": userToLookup,
-            "JSON": "Yes"
-        }
+    let returnData = [] 
+    for (let i=0; i < playersList.length; i++) {
+        let params = {'Player': playersList[i]}
+        let data1 = await util.doRequest('AccountsGet', params)
+        returnData.push(data1.data)
     }
 
-    let data = await axios.get(url,requestParams)
-
-    res.json({data: data.data})
+    res.json({data: returnData})
+    
 })
 
-app.get('/tournamentsResults/:name', async (req, res) => {
-    // http://localhost:3000/tournamentsResults/Bob%20Barker
+app.get('/tournamentsList', async (req, res) => {
+    // http://localhost:3000/tournamentsList
+    res.header("Access-Control-Allow-Origin", "*");
 
-    let tournamentName = req.params.name
-    let tournamentEncoded = encodeURIComponent(tournamentName)
+    let tournamentFields = [
+        "Result", "Name", "Status", "Game", "Seats", "Chips", "BuyIn", "AddOnChips", "MaxRebuys"
+    ]
+    
+    let params = {"Fields": tournamentFields.join(',')}
+    let data = await util.doRequest('TournamentsList', params)
 
-    let url = `${apiUrl}:${apiPort}/api`
+    
+    let resData = data.data 
 
-    let requestParams = {
-        params: {
-            "Command": "TournamentsResults", 
-            "Password": apiPassword,
-            "Name": tournamentEncoded,
-            "JSON": "Yes"
-        }
+    let skipFields = ['Result', 'Tournaments']
+    let parsedRows = util.prepForTransformToRows(resData, skipFields)
+    let flatData = util.transformToRows(parsedRows)
+
+    res.json({data: flatData})
+
+})
+
+
+app.get('/tournamentsResults/:name/date/:date', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    // http://localhost:3000/tournamentsResults/Bob Barker/date/2020-07-24
+    // encodeURIComponent did not work on name when it had space 
+    let params = {
+        "Name": req.params.name, 
+        "Date": req.params.date
     }
+    let data = await util.doRequest('TournamentsResults', params)
 
-    let data = await axios.get(url, requestParams) 
-    res.json({data: data.data})
+    
+    let skipTournamentKeys = ['Number', 'Currency', 'Bounty', 'PrizeBonus', 'MultiplyBonus', 'Late', 'Tickets', 'StopOnChop']
+    let tournamentData = util.transformToRowsTournament(data.data.Data, skipTournamentKeys)
+    res.json({data: tournamentData})
+
+
 })
 
 
-app.get('/tournamentsResults/:name/:date', async (req, res) => {
+//// everything above here works well //////
 
-    let tournamentName = req.params.name
-    let tournamentDate = req.params.date 
-    let tournamentNameEncoded = encodeURIComponent(tournamentName)
-    let tournamentDateEncoded = encodeURIComponent(tournamentDate)
 
-    let url = `${apiUrl}:${apiPort}/api`
+// app.get('/userLookup/:name', async (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     // send this in postman - http://localhost:3000/userLookup/ant
 
-    let requestParams = {
-        params: {
-            "Command": "TournamentsResults", 
-            "Password": apiPassword,
-            "Name": tournamentNameEncoded,
-            "Date": tournamentDateEncoded,
-            "JSON": "Yes"
-        }
-    }
+//     let userToLookup = req.params.name
 
-    let data = await axios.get(url, requestParams) 
-    res.json({data: data.data})
-})
+//     // let url = 'http://pokeribarelyknowher.com:80/api?Command=AccountsGet&Password=s&player=ant&JSON=Yes'
+//     let url = `${apiUrl}:${apiPort}/api`
+//     var requestParams = {
+//         params: {
+//             "Command": "AccountsGet", 
+//             "Password": apiPassword,
+//             "Player": userToLookup,
+//             "JSON": "Yes"
+//         }
+//     }
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+//     let data = await axios.get(url,requestParams)
+
+//     res.json({data: data.data})
+// })
+
+
+
+app.listen(`${config.port}`, `${config.host}`, () => console.log(`Poker API listening at http://${config.host}:${config.port}`))
