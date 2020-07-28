@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TournamentsService } from './services/tournaments.service';
 
+
 interface TournamentName {
   value: string;
   viewValue: string;
@@ -18,6 +19,9 @@ export class AppComponent {
   usersList = []
   tournamentNames: TournamentName[] = [];
   tournamentDates = []
+  defaultTournament = ''
+
+
 
   constructor(private service:TournamentsService) {}
   
@@ -32,8 +36,7 @@ export class AppComponent {
         headerName: key,
         field: key,
         filter: 'agTextColumnFilter',
-        editable: true
-      }
+        editable: true      }
 
       headers.push(tempObj)
     })
@@ -50,19 +53,27 @@ export class AppComponent {
 
   ngOnInit() {
 
-      this.service.getTournamentNames()
-      .subscribe(response => {
-        this.tournamentNames = response.data
-        console.log(response)
-      })
+      // this.service.getTournamentNames()
+      // .subscribe(response => {
+      //   this.tournamentNames = response.data
+      //   this.defaultTournament = response.data[0].viewValue
+      //   console.log(response)
+      //   this.service.getTournamentByName(this.defaultTournament)
+      //   .subscribe(response => {
+      //     this.columnDefs = this.makeHeader(response.data)
+      //     this.rowData = this.createRows(response.data)
+      //     console.log(response)
+      //   })
+      // })
 
-      this.service.getTournaments()
-        .subscribe(response => {
-          this.tournaments = response;
-          this.columnDefs = this.makeHeader(response.data)
-          this.rowData = this.createRows(response.data)
-          console.log(response)
-        });
+
+      // this.service.getTournaments()
+      //   .subscribe(response => {
+      //     this.tournaments = response;
+      //     this.columnDefs = this.makeHeader(response.data)
+      //     this.rowData = this.createRows(response.data)
+      //     console.log(response)
+      //   });
 
 
   }

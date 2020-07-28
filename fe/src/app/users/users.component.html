@@ -1,0 +1,62 @@
+
+<div class="title"> 
+
+
+
+    <div> 
+        
+        <h3 class="title"> Select a Tournament</h3>
+        <mat-form-field appearance="fill">
+        <mat-label>Tournament Name </mat-label>
+        <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectNameChange($event)">
+            <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
+            {{tournament.viewValue}}
+            </mat-option>
+        </mat-select>
+        </mat-form-field>
+
+        <h3 class="title"> Select a Date</h3>
+        <mat-form-field appearance="fill">
+        <mat-label>Tournament Date </mat-label>
+        <mat-select [(value)]="defaultDate"  (selectionChange)="onSelectDateChange($event)">
+            <mat-option *ngFor="let tournament of tournamentDates" [value]="tournament.value">
+            {{tournament.viewValue}}
+            </mat-option>
+        </mat-select>
+        </mat-form-field>
+
+        <div *ngIf= "showTournamentSelector" class="title">
+            <h3 class="title"> Select a Tournament Number</h3>
+            <mat-form-field appearance="fill">
+            <mat-label>Tournament Number </mat-label>
+            <mat-select [(value)]="defaultTournamentId" (selectionChange)="onTournamentChange($event)">
+                <mat-option *ngFor="let tournament of tournamentIds" [value]="tournament.value">
+                {{tournament.viewValue}}
+                </mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+
+        <section>
+                <div class="example-button-row">
+                    <button 
+                        mat-raised-button color="primary"
+                        (click)="findTournament($event)"
+                    >Find Tournament</button>
+                </div>
+              </section>
+
+        <h3 class="title"> Tournament Stats</h3>
+        <ag-grid-angular 
+        style="width: 1500px; height: 750px;" 
+        class="ag-theme-alpine-dark"
+        [rowData]="rowData" 
+        [columnDefs]="columnDefs"
+        >
+        </ag-grid-angular> -->
+
+
+
+    </div>
+
+</div>>

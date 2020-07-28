@@ -3,6 +3,64 @@
 @import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 html, body { 
     height: 100%;
-    /* background: linear-gradient(120deg, #900C3F, #ECE3E6);  */
+    /* background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(56,122,13,1) 14%, rgba(9,97,121,0.22872899159663862) 59%, rgba(0,212,255,1) 100%); */
+    background: black
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; }
+
+.main {
+    float:left,;
+    padding:10px;
+    color:white
+}
+
+.title {
+    color: white
+}
+
+.mat-select-panel {
+    background: #73c83b
+    
+}
+
+.mat-form-field {
+    background: #73c83b
+}
+
+section {
+    display: table;
+  }
+  
+  .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+  
+  .example-button-row {
+    display: table-cell;
+    width: 490px;
+  }
+  
+  .example-button-row .mat-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  
+  .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  }
+
+  .center {
+    float: left;
+    padding : 10px
+  }
+  

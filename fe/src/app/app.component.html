@@ -1,24 +1,61 @@
-<div >
+<div>
+    <!-- https://www.techiediaries.com/angular-material-navigation-toolbar-sidenav/ -->
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+          <!-- <button mat-icon-button>
+            <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+          </button> -->
+          <h1>Poker I dont know her</h1>
+          <span class="menu-spacer"></span>
+          <div>
+            <a mat-button [routerLink]="'/'"> Home </a>
+            <a mat-button [routerLink]="'/tournaments'"> Tournament Stats </a>
+            <a mat-button [routerLink]="'/users'"> Users </a>
+            <a mat-button href="http://pokeribarelyknowher.com" target="_blank"> Go To Site</a> 
+          </div>
+        </mat-toolbar-row>
+      
+        <!-- <mat-toolbar-row>
+            <span style="font-size: 12px;">UI</span>
+          </mat-toolbar-row> -->
+      </mat-toolbar>
 
-<h3> Select a Tournament</h3>
+
+  <!-- <h4 class="title"> this is the app component</h4>
+    <a routerLink="users"> go to users</a>
+    <a routerLink="tournaments"> go to tournaments</a> -->
+  <!-- <a routerLink="users"> go to users</a>
+  <a routerLink="tournaments"> go to tournaments</a>
+
+<h3 class="title"> Select a Tournament</h3>
 <mat-form-field appearance="fill">
   <mat-label>Tournament Name </mat-label>
-  <mat-select (selectionChange)="onSelectChange($event)">
+  <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectChange($event)">
     <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
       {{tournament.viewValue}}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
+<section>
+  <div class="example-button-row">
+    <a 
+      mat-raised-button href="http://pokeribarelyknowher.com"
+      mat-raised-button color="primary"
+      target="_blank">Take me to the game
+    </a>
+  </div>
+</section>
 
-<h3> Tournament Stats</h3>
+
+<h3 class="title"> Tournament Stats</h3>
 <ag-grid-angular 
   style="width: 1500px; height: 750px;" 
   class="ag-theme-alpine-dark"
   [rowData]="rowData" 
   [columnDefs]="columnDefs"
   >
-</ag-grid-angular>
+</ag-grid-angular> -->
 
 </div>
 

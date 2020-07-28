@@ -5,6 +5,9 @@ module.exports = {
     prepForTransformToRows : prepForTransformToRows,
     transformToRows:transformToRows,
     transformToRowsTournament: transformToRowsTournament,
+    transformTournamentPlayers: transformTournamentPlayers,
+    findTournament: findTournament,
+    tournamentToJson: tournamentToJson,
     doRequest: doRequest
 }
 
@@ -82,6 +85,28 @@ async function doRequest(apiCommand, paramsObject) {
     return axios.get(url,requestParams)
 }
 
+function getPlayers(rank, data) {
+
+
+    let splitData = data.split(' ')
+
+    let playerObj = {}
+    playerObj.Username = splitData[0]
+    playerObj.Unknown = splitData[1]
+    playerObj.Place = rank[5] * 1
+    
+    let rebuy = splitData[2].split(':')
+    playerObj[rebuy[0]] = rebuy[1]
+
+    let addon = splitData[3].split(':')
+    playerObj[addon[0]] = addon[1]
+
+    let ko = splitData[4].split(':')
+    playerObj[ko[0]] = ko[1]
+    console.log(playerObj)
+    return playerObj
+}
+
 function transformToRowsTournament(tournamentArray, skipFields) {
     /* 
     data is from search for a game name on a specific date
@@ -154,7 +179,7 @@ function transformToRowsTournament(tournamentArray, skipFields) {
         }
 
         if (lineSplit[0].trim().startsWith('Place')) {
-            var d = 'ss'
+            var player = getPlayers(lineSplit[0], lineSplit[1])
         }
         
 
@@ -173,4 +198,177 @@ function transformToRowsTournament(tournamentArray, skipFields) {
 
     return tournamentList
 
+}
+
+  
+function compare( a, b ) {
+    if ( a.Place < b.Place ){
+      return -1;
+    }
+    if ( a.Place > b.Place ){
+      return 1;
+    }
+    return 0;
+  }
+  
+  
+
+function addStartEndTime(tournamentResults) {
+    let start = tournamentResults[0].Start
+    let end = tournamentResults[tournamentResults.length - 1].Stop
+    
+    var returnData = tournamentResults.slice(1, tournamentResults.length-1)
+
+    for (let i=0; i < returnData.length; i++) {
+        returnData[i].Start = start
+        returnData[i].End = end 
+    }
+
+    let sortedByPlace = returnData.sort(compare)
+    return sortedByPlace
+}
+
+
+function transformTournamentPlayers(tournamentArray) {
+
+    let playersRank = {}
+    let tournamentNumber = ''
+    for (let i =0; i < tournamentArray.length; i++) {
+        var line = tournamentArray[i];
+        if (!line) {
+            continue
+        }
+        
+        let lineSplit = line.split('=')
+
+        // Number will always occur before Place so this works ... 
+        
+        if (lineSplit[0].trim().startsWith('Number')) {
+            let tournyNumber = lineSplit[1]
+            let tournyExists = playersRank[tournyNumber]
+            if (!tournyExists) {
+                playersRank[tournyNumber] = []
+                tournamentNumber = tournyNumber
+            }
+        }
+
+        else if (lineSplit[0].trim().startsWith('Place')) {
+            var player = getPlayers(lineSplit[0], lineSplit[1])
+            playersRank[tournamentNumber].push(player)
+        }
+
+        else if (['Start', 'Stop'].includes(lineSplit[0])) {
+            let val = {[lineSplit[0]]: lineSplit[1]}
+            playersRank[tournamentNumber].push(val)
+        }
+
+        
+    }
+    
+    let newList = []
+    for (let key in playersRank) {
+        if (playersRank.hasOwnProperty(key)) {
+            let addStartStop = addStartEndTime(playersRank[key])
+            // newList.push.apply(newList, addStartStop)
+            playersRank[key] = addStartStop
+        }
+    }
+    
+    return playersRank
+}
+
+function findTournament(tournamentsArray, tournamentId) {
+    
+    let tournamentResults = []
+    for (let i=0; i < tournamentsArray.length; i++) {
+        let tournamentRow = tournamentsArray[i];
+        if (tournamentRow.startsWith('Number')) {
+            let rowSplit = tournamentRow.split('=')
+            if (rowSplit[1].trim() === tournamentId.toString()) {
+                if (rowSplit[0].startsWith('Player')) {
+                    var player = getPlayers(lineSplit[0], lineSplit[1])
+                    tournamentResults.push(player)
+                }
+            }
+        } 
+
+    }
+    return tournamentResults
+    
+}
+
+
+
+function addStartEndTimeNumber(tournamentResults, tournamentName) {
+
+    let number = tournamentResults[0].Number
+    let start = tournamentResults[1].Start
+    let end = tournamentResults[tournamentResults.length - 1].Stop
+    
+    var returnData = tournamentResults.slice(2, tournamentResults.length-1)
+
+    for (let i=0; i < returnData.length; i++) {
+        returnData[i].Start = start
+        returnData[i].End = end
+        returnData[i].Number = number
+        returnData[i].Tournament = tournamentName 
+    }
+
+    let sortedByPlace = returnData.sort(compare)
+    return sortedByPlace
+}
+
+function tournamentToJson(tournamentArray) {
+
+    let playersRank = {}
+    let tournamentNumber = ''
+    let tournamentNameCheck = ''
+    for (let i =0; i < tournamentArray.length; i++) {
+        var line = tournamentArray[i];
+        if (!line) {
+            continue
+        }
+        
+        let lineSplit = line.split('=')
+
+        // Number will always occur before Place so this works ... 
+        
+        if (lineSplit[0].trim().startsWith('Number')) {
+            let tournyNumber = lineSplit[1]
+            let tournyExists = playersRank[tournyNumber]
+            if (!tournyExists) {
+                let tournamentId = {[lineSplit[0]]: lineSplit[1]}
+                playersRank[tournyNumber] = [tournamentId]
+                tournamentNumber = tournyNumber
+            }
+        }
+
+        else if (lineSplit[0].trim().startsWith('Place')) {
+            var player = getPlayers(lineSplit[0], lineSplit[1])
+            playersRank[tournamentNumber].push(player)
+        }
+        else if (['Tournament'].includes(lineSplit[0])) {
+            tournamentNameCheck  = lineSplit[1]
+        }
+
+        else if (['Start', 'Stop', 'Number'].includes(lineSplit[0])) {
+            let val = {[lineSplit[0]]: lineSplit[1]}
+            playersRank[tournamentNumber].push(val)
+        }
+
+        
+    }
+
+    
+    for (let key in playersRank) {
+        if (playersRank.hasOwnProperty(key)) {
+            let addStartStop = addStartEndTimeNumber(playersRank[key], tournamentNameCheck)
+            // newList.push.apply(newList, addStartStop)
+            playersRank[key] = addStartStop
+        }
+    }
+  
+        
+    
+    return playersRank
 }

@@ -1,0 +1,39 @@
+<div>
+    
+    <div class="center">
+      <h3 class="title"> Select a Tournament</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Tournament Name </mat-label>
+        <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectChange($event)">
+          <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
+            {{tournament.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+      
+      <!-- <section>
+        <div class="example-button-row">
+          <a
+          routerLink="tournamtes" 
+            mat-raised-button 
+            mat-raised-button color="primary"
+            target="_blank">Take me to the game
+          </a>
+        </div>
+      </section> -->
+      
+    <div class="center">
+      <h3 class="title"> Tournament Stats</h3>
+      <ag-grid-angular 
+        style="width: 1500px; height: 500px;" 
+        class="ag-theme-alpine-dark"
+        [rowData]="rowData" 
+        [columnDefs]="columnDefs"
+        >
+      </ag-grid-angular>
+    </div> 
+      </div>
+      
+      
+      <router-outlet></router-outlet>
