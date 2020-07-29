@@ -2,17 +2,17 @@
 @import 'ag-grid-community/dist/styles/ag-grid.css';
 @import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 html, body { 
-    height: 100%;
+    /* height: 100%; */
     /* background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(56,122,13,1) 14%, rgba(9,97,121,0.22872899159663862) 59%, rgba(0,212,255,1) 100%); */
     background: black
 }
 body { margin: 0; }
 
-.main {
+/* .main {
     float:left,;
     padding:10px;
     color:white
-}
+} */
 
 .title {
     color: white
@@ -27,9 +27,41 @@ body { margin: 0; }
     background: #73c83b
 }
 
-section {
+/* section {
     display: table;
-  }
+  } */
+
+.select-wrapper {
+  display:flex;
+  flex-flow: row wrap;
+  /* text-align:center; */
+  /* display:inline-block;  */
+  /* margin:10px; */
+  justify-content: center;
+  text-align:center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+ }
+
+ .flex-center { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+
+
+ /* mat-select {padding:10px; background-color:green;color:white;} */
+  /* .parent {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: w;
+    height: 10000px;
+    }
+    
+    .child {
+    width: 40%;
+    }
   
   .example-label {
     display: table-cell;
@@ -38,7 +70,7 @@ section {
     min-width: 120px;
   }
   
-  .example-button-row {
+.example-button-row {
     display: table-cell;
     width: 490px;
   }
@@ -47,20 +79,21 @@ section {
     margin: 8px 8px 8px 0;
   }
   
-  .example-flex-container {
+.example-flex-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
   }
-  
+
   .example-button-container {
     display: flex;
     justify-content: center;
     width: 120px;
-  }
+  }  */
 
   .center {
-    float: left;
-    padding : 10px
+
+
+    vertical-align: middle;
   }
-  
+   
