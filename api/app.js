@@ -1,11 +1,11 @@
 const express = require('express')
 const util = require('./util.js')
 const config = require('./config/secrets.js')
-const redis = require('redis');
+// const redis = require('redis');
 // var Promise = require("bluebird");
 
 const app = express()
-const redisClient = redis.createClient(config.redisPort);
+// const redisClient = redis.createClient(config.redisPort);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -68,7 +68,7 @@ app.get('/tournamentByPlayers/:name', async (req, res) => {
 
 
 // [checkCache]
-app.get('/tournamentLookup/:name', [checkCache], async (req, res) => {
+app.get('/tournamentLookup/:name', async (req, res) => {
     // used by front end 
     // http://localhost:3000/tournamentsResults/Bob Barker
     // used by material ui select drop down 
@@ -99,7 +99,7 @@ app.get('/tournamentLookup/:name', [checkCache], async (req, res) => {
             matchedTournamentData.push.apply(matchedTournamentData, matchTournamentTransformed)
         }
     }
-    redisClient.setex(tournamentName, 3600, JSON.stringify(matchedTournamentData));
+    //redisClient.setex(tournamentName, 3600, JSON.stringify(matchedTournamentData));
 
     res.json({data: matchedTournamentData})
 
@@ -156,13 +156,13 @@ app.get('/tournamentsAll', async (req, res) => {
         }
     }
 
-    for (var tournamentName in groupByName) {
-        if (groupByName.hasOwnProperty(tournamentName)) {
-            // key is tournament name and value is every time that tournament played, regardless of date 
-            var allTournamentData = groupByName[tournamentName]
-            redisClient.setex(tournamentName, 3600, JSON.stringify(allTournamentData));
-        }
-    }
+    // for (var tournamentName in groupByName) {
+    //     if (groupByName.hasOwnProperty(tournamentName)) {
+    //         // key is tournament name and value is every time that tournament played, regardless of date 
+    //         var allTournamentData = groupByName[tournamentName]
+    //         redisClient.setex(tournamentName, 3600, JSON.stringify(allTournamentData));
+    //     }
+    // }
 
     res.json({data: transformedTournamentRows})
 })
