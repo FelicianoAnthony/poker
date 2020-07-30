@@ -15,7 +15,7 @@
 - look in conosole for http data 
 
 
-
+https://medium.com/@ramavathvinayak/deploy-a-node-js-application-on-aws-ec2-with-nginx-as-a-reverse-proxy-e8f41f1edaef
 1. comment out everything in file below & ONLY add 
 
     /etc/nginx/sites-available/default 
