@@ -26,29 +26,29 @@ export class AppComponent {
   constructor(private service:TournamentsService) {}
   
 
-  makeHeader(data) {
+  // makeHeader(data) {
 
-    let responseKeys = Object.keys(data[0])
+  //   let responseKeys = Object.keys(data[0])
 
-    let headers = []
-    responseKeys.forEach(key => {
-      let tempObj = {
-        headerName: key,
-        field: key,
-        filter: 'agTextColumnFilter',
-        editable: true      }
+  //   let headers = []
+  //   responseKeys.forEach(key => {
+  //     let tempObj = {
+  //       headerName: key,
+  //       field: key,
+  //       filter: 'agTextColumnFilter',
+  //       editable: true      }
 
-      headers.push(tempObj)
-    })
+  //     headers.push(tempObj)
+  //   })
 
-    return headers
-  }
+  //   return headers
+  // }
 
 
 
-  createRows(responseData) {
-    return responseData
-  }
+  // createRows(responseData) {
+  //   return responseData
+  // }
 
 
   ngOnInit() {
@@ -78,15 +78,15 @@ export class AppComponent {
 
   }
 
-  onSelectChange(ev: any) {
-    let tournamentName = ev.value;
-    this.service.getTournamentByName(tournamentName)
-    .subscribe(response => {
-      this.columnDefs = this.makeHeader(response.data)
-      this.rowData = this.createRows(response.data)
-      console.log(response)
-    })
- }
+//   onSelectChange(ev: any) {
+//     let tournamentName = ev.value;
+//     this.service.getTournamentByName(tournamentName)
+//     .subscribe((response : any) => {
+//       this.columnDefs = this.makeHeader(response.data)
+//       this.rowData = this.createRows(response.data)
+//       console.log(response)
+//     })
+//  }
 
 
 

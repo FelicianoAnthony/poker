@@ -47,12 +47,12 @@ export class UsersComponent implements OnInit {
   }
   ngOnInit(): void {
     this.service.getTournamentNames()
-    .subscribe(response => {
+    .subscribe((response: any) => {
       this.tournamentNames = response.data
       this.defaultTournament = response.data[0].viewValue
       console.log(response)
       this.service.getTournamentByName(this.defaultTournament)
-      .subscribe(response => {
+      .subscribe((response : any) => {
         this.columnDefs = this.makeHeader(response.data)
         this.rowData = this.createRows(response.data)
         console.log(response)
@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit {
 onSelectChange(ev: any) {
   let tournamentName = ev.value;
   this.service.getTournamentByName(tournamentName)
-  .subscribe(response => {
+  .subscribe((response : any) => {
     this.columnDefs = this.makeHeader(response.data)
     this.rowData = this.createRows(response.data)
     console.log(response)

@@ -76,7 +76,7 @@ export class TournamentsComponent implements OnInit {
 
 
     this.service.getTournamentsByDate()
-    .subscribe(response => {
+    .subscribe((response : any) => {
       this.responseData = response.data
       let formatDropdown = this.formatDropdown(Object.keys(response.data))
       this.tournamentNames = formatDropdown
@@ -85,12 +85,12 @@ export class TournamentsComponent implements OnInit {
       this.tournamentDates = formatDropDownDates
       // this.defaultDate = formatDropDownDates[0].viewValue
 
-      this.service.getTournamentNameAndDate(this.defaultTournament,this.defaultDate)
-      .subscribe(response => {
-        console.log(response)
-        //   this.columnDefs = this.makeHeader(response.data)
-        //   this.rowData = this.createRows(response.data)
-      })
+      // this.service.getTournamentNameAndDate(this.defaultTournament,this.defaultDate)
+      // .subscribe(response => {
+      //   console.log(response)
+      //   //   this.columnDefs = this.makeHeader(response.data)
+      //   //   this.rowData = this.createRows(response.data)
+      // })
     })
     
       // this.service.getTournamentNames()
@@ -185,7 +185,7 @@ export class TournamentsComponent implements OnInit {
       selectedTournamentId = 'noid'
     }
     this.service.getTournamentByNameDateId(selectedTournament, selectedDate, selectedTournamentId)
-    .subscribe(response => {
+    .subscribe((response: any) => {
 
       let hasMultipleGames = Object.keys(response.data).length > 1 ? true : false
       if (!Array.isArray(response.data)) {
