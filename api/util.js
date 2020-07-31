@@ -71,7 +71,8 @@ async function doRequest(apiCommand, paramsObject) {
             "Command": apiCommand, 
             "Password": config.pokerApiPassword,
             "JSON": "Yes"
-        }
+        },
+        timeout: 15000 // ms not seconds
     }
 
     if (paramsObject) {
@@ -103,7 +104,6 @@ function getPlayers(rank, data) {
 
     let ko = splitData[4].split(':')
     playerObj[ko[0]] = ko[1]
-    console.log(playerObj)
     return playerObj
 }
 
@@ -372,3 +372,4 @@ function tournamentToJson(tournamentArray) {
     
     return playersRank
 }
+
