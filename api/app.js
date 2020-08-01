@@ -28,13 +28,14 @@ function logResponse(res) {
 
 
 app.get('/tournamentsList', async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
     // shows tournament in dropdown on /tournaments routerLink
     try {
 
         logger.info(`start ${req.url}`)
         logRequest(req)
 
-        res.header("Access-Control-Allow-Origin", "*");
+        
         let tournamentFields = [
             "Result", "Name", "Status", "Game", "Seats", "Chips", "BuyIn", "AddOnChips", "MaxRebuys"
         ]
@@ -71,6 +72,7 @@ app.get('/tournamentsList', async (req, res, next) => {
 
 
 app.get('/tournamentLookup/:name', async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
     // used by front end 
     // http://localhost:3000/tournamentsResults/Bob Barker
     // used by material ui select drop down 
@@ -79,7 +81,7 @@ app.get('/tournamentLookup/:name', async (req, res, next) => {
     try {
         logger.info(`start ${req.url}`)
         logRequest(req)
-        res.header("Access-Control-Allow-Origin", "*");
+        
         
         let tournamentName = req.params.name
         let data = await util.doRequest('TournamentsResults', null)
@@ -118,13 +120,13 @@ app.get('/tournamentLookup/:name', async (req, res, next) => {
 
 
 
-app.get('/groupTournyByDate', async(req, res, next) => {
-    
+app.get('/groupTournyByDate', async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
     try {
         logger.info(`start ${req.url}`)
         logRequest(req)
 
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         let data = await util.doRequest('TournamentsResults', null)
         logResponse(data)
@@ -155,11 +157,11 @@ app.get('/groupTournyByDate', async(req, res, next) => {
 })
 
 app.get('/tournamentsResults/:name/date/:date',  async (req, res, next) => {
-    
+    res.header("Access-Control-Allow-Origin", "*");
     
     try {
         logger.info(`start ${req.url}`)
-        res.header("Access-Control-Allow-Origin", "*");
+        
                 // http://localhost:3000/tournamentsResults/
         // encodeURIComponent did not work on name when it had space 
 
@@ -215,6 +217,8 @@ app.get('/tournamentMatch/:name/:date/:tournamentId', async (req, res, next) => 
             return res.json({data: jsonTournaments})
         }
         let matchedTournament = jsonTournaments[tournamentId * 1 ]
+        
+        // let sortArray = ['Place', 'Username', 'Rebuys', 'AddOn', 'KO']
         logger.info(`finish ${req.url}`)
         res.json({data:matchedTournament})
     }

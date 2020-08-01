@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -38,7 +38,8 @@ import { MatListModule } from '@angular/material/list';
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    ToastrModule.forRoot()
 
     //RouterModule.forRoot(routes)
     

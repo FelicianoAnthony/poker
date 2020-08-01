@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentsService } from '../services/tournaments.service';
+import { ToastrService } from 'ngx-toastr';
 
 interface TournamentName {
   value: string;
@@ -30,7 +31,7 @@ export class TournamentsComponent implements OnInit {
   tournamentIds = []
   defaultTournamentId = '' 
 
-  constructor(private service:TournamentsService) { }
+  constructor(private service:TournamentsService,private toastr: ToastrService) { }
 
   formatDropdown(dropdownItems) {
 
@@ -184,9 +185,21 @@ export class TournamentsComponent implements OnInit {
     if (!selectedTournamentId) {
       selectedTournamentId = 'noid'
     }
+
+    if(!selectedDate && !selectedTournament) {
+      return this.toastr.error("Don't be silly", "Error", {positionClass: 'toast-bottom-right' })
+    }
+    
+    if (!selectedDate) {
+      return this.toastr.error("Choose a date", "Error", {positionClass: 'toast-bottom-right' })
+    }
+
+
+
     this.service.getTournamentByNameDateId(selectedTournament, selectedDate, selectedTournamentId)
     .subscribe((response: any) => {
 
+      
       let hasMultipleGames = Object.keys(response.data).length > 1 ? true : false
       if (!Array.isArray(response.data)) {
         if(hasMultipleGames) {
@@ -207,11 +220,11 @@ export class TournamentsComponent implements OnInit {
         console.log('has 1 game')
 
       }
-
-
-
+      return this.toastr.success("request successful", "Success", {positionClass: 'toast-bottom-right' })
     })
+    
 
  }
+
 
 }

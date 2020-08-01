@@ -1,127 +1,70 @@
 <div class="title"> 
 
-  <div class="select-wrapper">
-      <!-- <h3 class="title"> Select a Tournament</h3> -->
+  <div class="flexbox-container">
+
+    <div class="box-1">
+
       <mat-form-field appearance="fill">
-      <mat-label>Tournament Name </mat-label>
-      <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectNameChange($event)">
-          <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
-          {{tournament.viewValue}}
-          </mat-option>
-      </mat-select>
-      </mat-form-field>
-      <br><br><br><br>
-      <mat-divider></mat-divider>
+            <mat-label>Tournament Name </mat-label>
+            <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectNameChange($event)">
+                <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
+                {{tournament.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
 
 
-      <!-- <h3 class="title"> Select a Date</h3> -->
-      <mat-form-field appearance="fill">
-      <mat-label>Tournament Date </mat-label>
-      <mat-select [(value)]="defaultDate"  (selectionChange)="onSelectDateChange($event)">
-          <mat-option *ngFor="let tournament of tournamentDates" [value]="tournament.value">
-          {{tournament.viewValue}}
-          </mat-option>
-      </mat-select>
-      </mat-form-field>
+    <div class="box-2">
+        <mat-form-field *ngIf= "showTournamentSelector" appearance="fill">
+            <mat-label>Tournament Number </mat-label>
+                <mat-select [(value)]="defaultTournamentId" (selectionChange)="onTournamentChange($event)">
+                    <mat-option *ngFor="let tournament of tournamentIds" [value]="tournament.value">
+                        {{tournament.viewValue}}
+                    </mat-option>
+                </mat-select>
+        </mat-form-field>
+    </div>
 
+    <div class="box-3">
+        <mat-form-field appearance="fill">
+            <mat-label>Tournament Date </mat-label>
+                <mat-select [(value)]="defaultDate"  (selectionChange)="onSelectDateChange($event)">
+                    <mat-option *ngFor="let tournament of tournamentDates" [value]="tournament.value">
+                        {{tournament.viewValue}}
+                    </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-      <div *ngIf= "showTournamentSelector" >
-          <!-- <h3 class="title"> Select a Tournament Number</h3> -->
-          <mat-form-field appearance="fill">
-          <mat-label>Tournament Number </mat-label>
-          <mat-select [(value)]="defaultTournamentId" (selectionChange)="onTournamentChange($event)">
-              <mat-option *ngFor="let tournament of tournamentIds" [value]="tournament.value">
-              {{tournament.viewValue}}
-              </mat-option>
-          </mat-select>
-          </mat-form-field>
-      </div>
-
-
-
+    </div>
   </div>
 
-  <div class=select-wrapper>
+
+
+  <div class=flexbox-container>
 
       <button 
-      mat-raised-button color="primary"
-      (click)="findTournament($event)"
-    >Find Tournament</button>
+        mat-raised-button color="primary"
+        (click)="findTournament($event)">
+        Find Tournament
+      </button>
   
-
   </div>
-  <h3 class="flex-center"> Tournament Stats</h3>
-  <div class="flex-center">
+
+
+  <h3 class="flex-center"> Results </h3>
+  <div class="flexbox-container">
 
       <ag-grid-angular 
-      style="width: 1500px; height: 750px;" 
+      style="width:760px; height: 500px;" 
       class="ag-theme-alpine-dark"
       [rowData]="rowData" 
-      [columnDefs]="columnDefs"
-  >
+      [columnDefs]="columnDefs">
+
   </ag-grid-angular>
   </div>
 
-
-
-
-
-
-
-  <!-- </div>
-    <div>  
-      <h3 class="title"> Select a Tournament</h3>
-      <mat-form-field appearance="fill">
-      <mat-label>Tournament Name </mat-label>
-      <mat-select [(value)]="defaultTournament" (selectionChange)="onSelectNameChange($event)">
-          <mat-option *ngFor="let tournament of tournamentNames" [value]="tournament.value">
-          {{tournament.viewValue}}
-          </mat-option>
-      </mat-select>
-      </mat-form-field>
-
-      <h3 class="title"> Select a Date</h3>
-      <mat-form-field appearance="fill">
-      <mat-label>Tournament Date </mat-label>
-      <mat-select [(value)]="defaultDate"  (selectionChange)="onSelectDateChange($event)">
-          <mat-option *ngFor="let tournament of tournamentDates" [value]="tournament.value">
-          {{tournament.viewValue}}
-          </mat-option>
-      </mat-select>
-      </mat-form-field>
-
-      <div *ngIf= "showTournamentSelector" class="title">
-          <h3 class="title"> Select a Tournament Number</h3>
-          <mat-form-field appearance="fill">
-          <mat-label>Tournament Number </mat-label>
-          <mat-select [(value)]="defaultTournamentId" (selectionChange)="onTournamentChange($event)">
-              <mat-option *ngFor="let tournament of tournamentIds" [value]="tournament.value">
-              {{tournament.viewValue}}
-              </mat-option>
-          </mat-select>
-          </mat-form-field>
-      </div>
-
-      <section>
-              <div class="example-button-row">
-                  <button 
-                      mat-raised-button color="primary"
-                      (click)="findTournament($event)"
-                  >Find Tournament</button>
-              </div>
-      </section>
-
-      <h3 class="title"> Tournament Stats</h3>
-      <ag-grid-angular 
-      style="width: 1500px; height: 750px;" 
-      class="ag-theme-alpine-dark"
-      [rowData]="rowData" 
-      [columnDefs]="columnDefs"
-      >
-      </ag-grid-angular>
-
-
-
-    </div> -->
+ 
 
 </div>

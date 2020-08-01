@@ -41,3 +41,7 @@ location / {
 
 pm2 start "ng serve --port 8008 --disable-host-check" --name poker
 pm2 start app.js 
+
+
+FE runs on - http://3.236.51.188/ - ec2-3-236-51-188.compute-1.amazonaws.com
+API runs on - 18.207.158.248 - ec2-18-207-158-248.compute-1.amazonaws.com

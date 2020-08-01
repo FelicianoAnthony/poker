@@ -92,9 +92,10 @@ function getPlayers(rank, data) {
     let splitData = data.split(' ')
 
     let playerObj = {}
-    playerObj.Username = splitData[0]
-    playerObj.Unknown = splitData[1]
     playerObj.Place = rank[5] * 1
+    playerObj.Username = splitData[0]
+    // playerObj.Unknown = splitData[1]
+    
     
     let rebuy = splitData[2].split(':')
     playerObj[rebuy[0]] = rebuy[1]
@@ -307,15 +308,16 @@ function addStartEndTimeNumber(tournamentResults, tournamentName) {
     
     var returnData = tournamentResults.slice(2, tournamentResults.length-1)
 
-    for (let i=0; i < returnData.length; i++) {
-        returnData[i].Start = start
-        returnData[i].End = end
-        returnData[i].Number = number
-        returnData[i].Tournament = tournamentName 
-    }
+    // for (let i=0; i < returnData.length; i++) {
+    //     returnData[i].Start = start
+    //     returnData[i].End = end
+    //     returnData[i].Number = number
+    //     returnData[i].Tournament = tournamentName 
+    // }
 
-    let sortedByPlace = returnData.sort(compare)
-    return sortedByPlace
+    // let sortedByPlace = returnData.sort(compare)
+    // return sortedByPlace
+    return returnData.sort(compare)
 }
 
 function tournamentToJson(tournamentArray) {
@@ -371,5 +373,23 @@ function tournamentToJson(tournamentArray) {
         
     
     return playersRank
+}
+
+
+function sortArrayOfObjs(arrayOfObjs, orderArray, key) {
+
+    arrayOfObjs.sort(function(a,b) {
+        var A = a[key]
+        var B = b[key]
+
+        if (orderArray.indexOf(A) > orderArray,indexOf(B)) {
+            return 1
+        }
+        else {
+            return -1 
+        }
+    }); 
+    return arrayOfObjs
+
 }
 

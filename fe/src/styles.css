@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'ag-grid-community/dist/styles/ag-grid.css';
 @import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+@import 'ngx-toastr/toastr.css';
 html, body { 
     /* height: 100%; */
     /* background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(56,122,13,1) 14%, rgba(9,97,121,0.22872899159663862) 59%, rgba(0,212,255,1) 100%); */
@@ -31,17 +32,33 @@ body { margin: 0; }
     display: table;
   } */
 
-.select-wrapper {
+.flexbox-container {
+
+  padding: 10px;
   display:flex;
-  flex-flow: row wrap;
+  justify-content:space-around;
+
+  /* display: flex;
+  flex-flow: column wrap;
+  height: 250px; */
+  /* justify-content: space-evenly; */
+
+
+
   /* text-align:center; */
   /* display:inline-block;  */
   /* margin:10px; */
-  justify-content: center;
+
+  /* align-items: flex-start;  */
+
+  
+
+
+  /* justify-content: center;
   text-align:center;
   padding: 0;
   margin: 0;
-  list-style: none;
+  list-style: none; */
  }
 
  .flex-center { 
